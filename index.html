@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop · Cálculo do Novo Simples Nacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0F24; --panel:#121736; --panel-2:#161C40; --deep:#0D1230;
+  --line:#252C54; --line-2:#232A58; --line-3:#2B3468;
+  --cream:#EFEBE2; --cream-2:#E6E1D5; --ink:#0B0F24;
+  --text:#F4F5FA; --white:#FFFFFF; --text-2:#B7BEDB; --label:#7A82AC;
+  --cta-a:#F5820D; --cta-b:#D96C00; --cta-ink:#1A0F00;
+  --blue:#3B6CF6; --blue-soft:#8FB0FF;
+  --green:#1FCB6B; --green-2:#5FE39A; --green-3:#B9F3D2;
+  --pink-a:#FF1D5E; --pink-b:#E0104F; --red:#FF3B5C; --red-2:#FF7A93; --red-3:#FFAEBB;
+  --amber:#F7C98A;
+  --maxw:1200px; --gutter:22px;
+  --disp:'Inter',system-ui,-apple-system,sans-serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;line-height:1.04;letter-spacing:-.02em;color:var(--white)}
+.wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+section{position:relative}
+
+/* labels / eyebrow */
+.eyebrow{font-family:var(--sans);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--label);font-weight:700}
+.hl-o{color:var(--cta-a)} .hl-b{color:var(--blue-soft)} .hl-g{color:var(--green-2)}
+
+/* ---------- pill badges ---------- */
+.pills{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-3);
+  background:rgba(18,23,54,.55);border-radius:999px;padding:9px 16px;font-size:13px;
+  font-weight:600;color:var(--text-2)}
+.pill svg{flex:0 0 auto;color:var(--cta-a)}
+.pill.on-cream{border-color:rgba(11,15,36,.18);background:rgba(11,15,36,.05);color:#3a3f57}
+.pill.on-cream svg{color:var(--cta-b)}
+
+/* ---------- CTA (glossy pill) ---------- */
+.cta{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--disp);font-weight:700;font-size:16.5px;letter-spacing:.01em;
+  color:var(--cta-ink);min-height:62px;padding:0 34px;border:0;border-radius:999px;cursor:pointer;
+  background:linear-gradient(180deg,#FF9A2E,#E0710A 55%,#C25E00);
+  box-shadow:0 18px 40px -14px rgba(245,130,13,.75),inset 0 2px 0 rgba(255,255,255,.5),inset 0 -3px 8px rgba(120,50,0,.4);
+  transition:transform .16s ease,box-shadow .16s ease;text-align:center;line-height:1.15;overflow:hidden}
+.cta::after{content:"";position:absolute;left:6%;right:6%;top:5px;height:38%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),transparent);pointer-events:none}
+.cta:hover{transform:translateY(-2px);box-shadow:0 24px 54px -14px rgba(245,130,13,.9),inset 0 2px 0 rgba(255,255,255,.5)}
+.cta:active{transform:translateY(0)}
+.cta-full{width:100%}
+.cta-ghost{background:transparent;color:var(--text);border:1.5px solid var(--line-3);
+  box-shadow:none;min-height:48px;font-size:14px;padding:0 22px}
+.cta-ghost::after{display:none}
+.cta-ghost:hover{border-color:var(--cta-a);color:var(--white);transform:translateY(-1px);box-shadow:none}
+
+/* scarcity bar */
+.scarcity{margin-top:18px}
+.scar-track{height:12px;border-radius:999px;background:rgba(255,255,255,.06);
+  border:1px solid var(--line-3);overflow:hidden;padding:2px}
+.scar-fill{height:100%;width:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--cta-b),var(--cta-a))}
+.scar-label{font-size:13px;color:var(--label);margin-top:9px;font-weight:600;text-align:center}
+
+/* ---------- nav ---------- */
+.nav{position:relative;z-index:40}
+.nav-row{display:flex;align-items:center;justify-content:space-between;padding:20px 0 18px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mark{width:40px;height:40px;flex:0 0 auto}
+.brand-logo{height:38px;width:auto;display:block}
+.footer-logo{height:34px;width:auto;display:block}
+.brand .bt{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--label);font-weight:700}
+.brand .bn{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--white);line-height:1.1;max-width:220px}
+.nav-cta{display:none}
+
+/* ---------- urgency bar ---------- */
+.ubar{position:relative;background:linear-gradient(100deg,#C60F35,#9C0A2B);
+  border-bottom:1px solid rgba(0,0,0,.25)}
+.ubar .wrap{display:flex;flex-direction:column;gap:14px;align-items:center;
+  padding:16px var(--gutter);text-align:center}
+.ub-main{font-size:20px;line-height:1.32;color:#fff;font-weight:600;letter-spacing:-.01em}
+.br-desk{display:none}
+.ub-main b{color:#fff;font-weight:800}
+.ub-count{display:flex;flex-direction:row;align-items:center;gap:12px}
+.ub-label{font-size:12px;font-weight:800;color:#FFD7DE;letter-spacing:.18em;text-transform:uppercase}
+.count{display:inline-flex;gap:8px;font-variant-numeric:tabular-nums}
+.count .unit{display:flex;flex-direction:column;align-items:center;gap:4px}
+.count .unit b{background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.4);border-radius:11px;
+  padding:7px 11px;font-size:23px;color:#fff;font-weight:800;min-width:48px;text-align:center;
+  font-family:var(--disp);line-height:1}
+.count .unit i{font-style:normal;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);font-weight:700}
+@media(min-width:900px){
+  .ubar .wrap{flex-direction:row;justify-content:space-between;align-items:center;gap:36px;text-align:left}
+  .ub-main{line-height:1.3;text-align:left}
+  .br-desk{display:inline}
+  .ub-label{font-size:13px}
+  .count{gap:10px}
+  .count .unit b{font-size:30px;min-width:60px;padding:10px 14px}
+}
+
+/* ---------- HERO ---------- */
+.hero{padding:0 0 70px;overflow:hidden;background-color:var(--bg);
+  background-image:linear-gradient(180deg,rgba(11,15,36,0) 24%,rgba(11,15,36,.5) 44%,var(--bg) 63%),url("hero-mobile.webp");
+  background-repeat:no-repeat;background-position:top center;background-size:100% 100%,100% auto}
+.hero .portrait-stage{display:none}
+.hero-body{padding-top:70px}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;
+  background:radial-gradient(700px 500px at 6% 30%,rgba(245,130,13,.09),transparent 60%)}
+.hero .wrap{position:relative;z-index:2}
+.hero-grid{display:grid;gap:20px}
+.hero h1{font-size:30px;margin:22px 0 20px;font-weight:700}
+.hero h1 .hl-o{color:var(--cta-a)} .hero h1 .hl-b{color:var(--blue-soft)}
+.hero .sub{color:var(--text-2);font-size:17px;margin-bottom:12px}
+.hero .sub b{color:var(--white);font-weight:700}
+.hero .sub.mini{margin-bottom:28px;font-size:15.5px}
+.hero .cta{margin-bottom:4px}
+
+/* portrait with orbital arcs */
+.portrait-stage{position:relative;display:flex;justify-content:center;align-items:flex-end;
+  min-height:420px;margin-top:18px}
+.orbit-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible}
+.portrait{position:relative;z-index:2;width:100%;max-width:340px;aspect-ratio:3/4;border-radius:26px;
+  overflow:hidden;border:1px solid var(--line-3);
+  background:linear-gradient(180deg,rgba(11,15,36,0) 45%,rgba(11,15,36,.95)),
+            radial-gradient(120% 80% at 50% 12%,#2a3160,#0e1230 72%);
+  box-shadow:0 40px 90px -34px rgba(0,0,0,.85);display:flex;align-items:flex-end}
+.portrait .silh{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:82%;height:90%;
+  background:linear-gradient(180deg,#525c94,#20264d);filter:grayscale(1) contrast(1.05);opacity:.8;
+  -webkit-mask:radial-gradient(58% 40% at 50% 20%,#000 60%,transparent 72%) top/100% 52% no-repeat,
+        linear-gradient(#000,#000) bottom/100% 55% no-repeat;
+  border-radius:120px 120px 0 0/150px 150px 0 0}
+.portrait .plabel{position:absolute;top:14px;left:14px;z-index:3;font-family:var(--sans);font-size:9.5px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--label);border:1px solid var(--line-3);
+  border-radius:7px;padding:5px 9px;background:rgba(13,18,48,.6)}
+.namecard{position:relative;z-index:3;margin:0 16px 16px;padding:13px 15px;width:calc(100% - 32px);
+  background:rgba(13,18,48,.72);border:1px solid var(--line-3);border-radius:16px;backdrop-filter:blur(8px)}
+.namecard .nl{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:11px;
+  font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red-2)}
+.dot-live{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,59,92,.55)}70%{box-shadow:0 0 0 8px rgba(255,59,92,0)}100%{box-shadow:0 0 0 0 rgba(255,59,92,0)}}
+.namecard .nn{font-family:var(--disp);font-weight:700;color:#fff;font-size:17px;margin-top:6px}
+.namecard .nd{font-size:12.5px;color:var(--text-2);margin-top:2px}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--deep);padding:20px 0;overflow:hidden;white-space:nowrap}
+.marquee-track{display:inline-flex;align-items:center;gap:34px;animation:scroll-x 40s linear infinite;will-change:transform}
+.marquee-track span{font-family:var(--disp);font-weight:700;font-size:22px;color:rgba(183,190,219,.34);
+  letter-spacing:-.01em;flex:0 0 auto}
+.marquee-track .dot{width:7px;height:7px;border-radius:50%;background:var(--cta-a);opacity:.65;flex:0 0 auto}
+@keyframes scroll-x{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- section frame ---------- */
+.sec{padding:86px 0}
+.sec-head{max-width:760px;margin-bottom:44px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head .eyebrow{display:block;margin-bottom:14px}
+.sec-head h2{font-size:33px}
+.sec-head p{color:var(--text-2);margin-top:14px;font-size:16.5px}
+
+/* ---------- CREAM contrast section (context) ---------- */
+.cream{background:var(--cream);color:var(--ink);border-radius:34px;margin:0 12px;
+  overflow:hidden;position:relative}
+.cream-inner{padding:70px 20px}
+.cream-grid{display:grid;gap:30px;align-items:start}
+.cream h2.giant{font-family:var(--disp);font-weight:800;color:var(--ink);
+  font-size:clamp(46px,13vw,120px);line-height:.92;letter-spacing:-.03em}
+.cream h2.giant .hl-o{color:var(--cta-b)}
+.cream .kicker{font-family:var(--sans);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:#8a7f66;font-weight:700;margin-bottom:18px;display:block}
+.cream-card{background:var(--white);border:1px solid rgba(11,15,36,.08);border-radius:22px;
+  padding:30px 26px;box-shadow:0 30px 60px -40px rgba(11,15,36,.4)}
+.cream-card .clabel{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;
+  background:rgba(11,15,36,.05);border:1px solid rgba(11,15,36,.1);
+  border-radius:999px;padding:6px 14px;color:#5a5f78;margin-bottom:18px}
+.cream-card p{color:#3a3f57;font-size:16.5px;margin-bottom:16px}
+.cream-card p strong{color:var(--ink)}
+.cream-card .ask{font-family:var(--disp);font-weight:800;color:var(--ink);font-size:24px;margin-top:6px}
+.cream-card .ask .hl-o{color:var(--cta-b)}
+/* notícias (prova) no creme */
+.cream-news{margin:90px auto;max-width:860px;text-align:center}
+.cream-news img{width:100%;height:auto;display:inline-block;
+  filter:drop-shadow(0 3px 6px rgba(11,15,36,.10)) drop-shadow(0 18px 30px rgba(11,15,36,.18))}
+.cream-news + .cmp-head{margin-top:0}
+/* comparativo dentro do creme */
+.cmp-head{margin-top:64px}
+.cream .cmp-title .vs-txt{color:var(--cta-b);font-weight:800}
+.cmp-card{padding-top:34px}
+.cmp-tag{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 18px;border-radius:999px;white-space:nowrap;z-index:3;
+  box-shadow:0 8px 18px -8px rgba(11,15,36,.45)}
+.cmp-conv .cmp-tag{background:var(--red);color:#fff}
+.cmp-hib .cmp-tag{background:var(--green);color:#fff}
+.cmp-head .kicker{margin-bottom:12px}
+.cream .cmp-title{font-family:var(--disp);font-weight:800;color:var(--ink);
+  font-size:clamp(28px,6vw,40px);line-height:1.06;letter-spacing:-.02em}
+.cream .cmp-ref{display:inline-block;color:#6b6f86;border:1px solid rgba(11,15,36,.16);margin-top:14px}
+.cream .vs{background:#fff;border-color:rgba(11,15,36,.14);color:var(--cta-b)}
+.cream .cmp-grid{margin-top:30px}
+.cream .cmp-card{background:#fff;border:1px solid rgba(11,15,36,.08);box-shadow:0 24px 55px -38px rgba(11,15,36,.4)}
+.cream .cmp-card .ct{color:var(--ink)}
+.cream .cmp-card .guia{color:#8a7f66}
+.cream .cmp-card li{color:#3a3f57}
+.cream .cmp-conv{border-top:4px solid var(--red)}
+.cream .cmp-hib{border-top:4px solid var(--green);box-shadow:0 0 0 1px rgba(31,203,107,.18),0 24px 60px -36px rgba(31,203,107,.5)}
+.cream .ck.g{background:rgba(31,203,107,.16);color:#0f9a52}
+.cream .ck.r{background:rgba(255,59,92,.14);color:#d1354f}
+.cream .note.warn{background:rgba(214,108,0,.09);border:1px solid rgba(214,108,0,.28);color:#9a5a00}
+.cream .note.good{background:rgba(31,203,107,.1);border:1px solid rgba(31,203,107,.35);color:#0f7a43}
+
+/* ---------- comparative cards ---------- */
+.cmp-ref{display:inline-block;font-family:var(--sans);font-size:12px;letter-spacing:.06em;color:var(--label);
+  border:1px solid var(--line-3);border-radius:999px;padding:6px 14px;margin-top:14px}
+.vs{display:inline-flex;align-items:center;justify-content:center;background:var(--panel-2);
+  border:1px solid var(--line-3);color:var(--cta-a);font-family:var(--disp);font-weight:800;font-size:13px;
+  border-radius:999px;padding:2px 12px;margin:0 6px;vertical-align:middle}
+.cmp-grid{display:grid;gap:20px;grid-template-columns:1fr}
+.cmp-card{border-radius:24px;padding:30px 26px;background:var(--panel);border:1px solid var(--line-2);position:relative}
+.cmp-card .ct{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:19px;color:#fff;margin-bottom:6px}
+.cmp-card .guia{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--label);font-weight:700;margin:20px 0 10px}
+.cmp-card ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.cmp-card li{display:flex;gap:11px;align-items:flex-start;font-size:15.5px}
+.ck{flex:0 0 auto;margin-top:3px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800}
+.ck.g{background:rgba(31,203,107,.16);color:var(--green-2)}
+.ck.r{background:rgba(255,59,92,.16);color:var(--red-2)}
+.note{margin-top:22px;padding:16px 18px;border-radius:16px;font-size:14px;line-height:1.55}
+.note strong{display:block;margin-bottom:5px}
+.note.warn{background:rgba(247,201,138,.08);border:1px solid rgba(247,201,138,.3);color:var(--amber)}
+.note.good{background:rgba(31,203,107,.08);border:1px solid rgba(31,203,107,.32);color:var(--green-3)}
+.cmp-conv{border-top:4px solid var(--red)}
+.cmp-hib{border-top:4px solid var(--green);box-shadow:0 0 0 1px rgba(31,203,107,.14),0 30px 70px -40px rgba(31,203,107,.45)}
+
+/* ---------- bridge (big centered) ---------- */
+.bridge-card{position:relative;border-radius:24px;overflow:hidden;
+  margin:70px 0 0;box-shadow:0 30px 70px -44px rgba(11,15,36,.55);
+  padding:330px 24px 40px;
+  background:linear-gradient(180deg,rgba(11,15,36,0) 24%,rgba(11,15,36,.5) 42%,rgba(11,15,36,.95) 62%),
+    url("background-secao-6-mobile.webp") center top/100% auto no-repeat,var(--deep);
+  background-size:100% 100%,100% auto}
+.bridge-content{text-align:left}
+.cream .bridge-card .kicker{color:var(--cta-a);font-family:var(--disp);font-weight:700;font-size:20px;margin-bottom:16px}
+.bridge-content h2{font-size:clamp(28px,5vw,46px);margin:0 0 20px;text-align:left;color:var(--white)}
+.bridge-content p{color:var(--text-2);margin:0;font-size:17px;text-align:left}
+.bridge-content .bridge-cta{margin-top:30px}
+.timeline{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:34px}
+.tl{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line-3);background:var(--panel);
+  border-radius:999px;padding:12px 20px;font-weight:600;color:var(--text)}
+.tl b{font-family:var(--disp);color:var(--cta-a)}
+
+/* ---------- pilares ---------- */
+.pilares{background:var(--deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden}
+.pilares::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(620px 420px at 12% 8%,rgba(59,108,246,.13),transparent 60%),
+            radial-gradient(620px 420px at 88% 94%,rgba(245,130,13,.08),transparent 60%)}
+.pilares .wrap{position:relative;z-index:1}
+.pilar-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.pilar{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.10);border-radius:24px;
+  padding:40px 28px 34px;position:relative;overflow:hidden;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 24px 60px -42px rgba(0,0,0,.7)}
+.pilar::before{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent)}
+.pilar .pn{font-family:var(--disp);font-weight:800;font-size:52px;line-height:1;letter-spacing:-.02em;
+  color:rgba(245,130,13,.18);position:absolute;top:26px;right:28px}
+.pilar .pt{font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--cta-a);font-weight:700}
+.pilar h3{font-size:24px;line-height:1.25;margin:12px 0 26px;max-width:15ch}
+/* checklist timeline animado */
+.pilar .checks{list-style:none;position:relative;display:flex;flex-direction:column;gap:22px;padding:0}
+.pilar .checks::before{content:"";position:absolute;left:12px;top:14px;bottom:14px;width:2px;
+  background:var(--line-3);opacity:.6;z-index:1}
+.pilar .checks::after{content:"";position:absolute;left:12px;top:14px;bottom:14px;width:2px;
+  background:var(--green);z-index:1;transform:scaleY(0);transform-origin:top;transition:transform 1.3s ease .12s}
+.pilar.on .checks::after{transform:scaleY(1)}
+.pilar .checks li{position:relative;padding-left:42px;font-size:15.5px;line-height:1.55;color:var(--text-2)}
+.pilar .checks .chk{position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;
+  border:2px solid var(--line-3);background:var(--deep);display:grid;place-items:center;z-index:2;
+  transition:background .55s ease,border-color .55s ease,box-shadow .55s ease}
+.pilar .checks .chk::after{content:"";display:block;width:6px;height:11px;border:solid #fff;
+  border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);margin-top:-2px;
+  transition:transform .5s cubic-bezier(.2,1.15,.4,1)}
+.pilar .checks li:nth-child(1) .chk,.pilar .checks li:nth-child(1) .chk::after{transition-delay:.14s}
+.pilar .checks li:nth-child(2) .chk,.pilar .checks li:nth-child(2) .chk::after{transition-delay:.42s}
+.pilar .checks li:nth-child(3) .chk,.pilar .checks li:nth-child(3) .chk::after{transition-delay:.70s}
+.pilar .checks li:nth-child(4) .chk,.pilar .checks li:nth-child(4) .chk::after{transition-delay:.98s}
+.pilar.on .checks .chk{background:var(--green);border-color:var(--green);box-shadow:0 0 0 5px rgba(31,203,107,.12)}
+.pilar.on .checks .chk::after{transform:rotate(45deg) scale(1)}
+@media(prefers-reduced-motion:reduce){.pilar .checks .chk,.pilar .checks .chk::after,.pilar .checks::after{transition:none}}
+.fecho-cream{margin:40px 0 0}
+.fecho-inner{text-align:center;padding:48px 24px}
+.fecho-inner p{font-family:var(--disp);font-weight:800;color:var(--ink);font-size:24px;
+  line-height:1.3;max-width:22ch;margin:0 auto 28px}
+
+/* ---------- decide (para quem / achismo) ---------- */
+.decide-grid{display:grid;gap:32px;grid-template-columns:1fr}
+.decide-col h3{font-family:var(--disp);font-weight:700;font-size:24px;margin-bottom:20px}
+.decide-bad h3{color:var(--red-2)} .decide-good h3{color:var(--green-2)}
+.decide-items{display:flex;flex-direction:column;gap:14px}
+.decide-item{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:16px;
+  background:rgba(255,255,255,.02);border:1px solid var(--line-2);position:relative;
+  transition:background .4s ease,border-color .4s ease,box-shadow .4s ease}
+.decide-item p{margin:0;font-size:15.5px;line-height:1.5;color:var(--text-2);transition:color .4s ease}
+.decide-item .dic{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  font-size:16px;font-weight:800;border:2px solid var(--line-3);background:transparent;
+  transition:background .4s ease,border-color .4s ease,color .4s ease,box-shadow .4s ease}
+.decide-bad .decide-item .dic{border-color:rgba(255,59,92,.5);color:var(--red-2)}
+.decide-bad .decide-item:hover,.decide-bad .decide-item.on{border-color:rgba(255,59,92,.55);
+  background:rgba(255,59,92,.07);box-shadow:inset 0 0 0 1px rgba(255,59,92,.35),0 24px 55px -34px rgba(255,59,92,.6)}
+.decide-bad .decide-item:hover .dic,.decide-bad .decide-item.on .dic{background:var(--red);border-color:var(--red);
+  color:#fff;box-shadow:0 0 0 6px rgba(255,59,92,.14)}
+.decide-bad .decide-item:hover p,.decide-bad .decide-item.on p{color:#fff}
+.decide-good .decide-item .dic{border-color:rgba(31,203,107,.5);color:var(--green-2)}
+.decide-good .decide-item:hover,.decide-good .decide-item.on{border-color:rgba(31,203,107,.55);
+  background:rgba(31,203,107,.07);box-shadow:inset 0 0 0 1px rgba(31,203,107,.35),0 24px 55px -34px rgba(31,203,107,.6)}
+.decide-good .decide-item:hover .dic,.decide-good .decide-item.on .dic{background:var(--green);border-color:var(--green);
+  color:#08351f;box-shadow:0 0 0 6px rgba(31,203,107,.14)}
+.decide-good .decide-item:hover p,.decide-good .decide-item.on p{color:#fff}
+@media(prefers-reduced-motion:reduce){.decide-item,.decide-item .dic,.decide-item p{transition:none}}
+
+/* ---------- receive ---------- */
+.receive{background:var(--deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden}
+.receive::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(620px 420px at 14% 6%,rgba(59,108,246,.12),transparent 60%),
+            radial-gradient(620px 420px at 86% 96%,rgba(245,130,13,.08),transparent 60%)}
+.receive .wrap{position:relative;z-index:1}
+.deliverables{display:flex;flex-direction:column;gap:22px}
+.deliverable{display:flex;flex-direction:column;border-radius:22px;overflow:hidden;position:relative;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 24px 60px -42px rgba(0,0,0,.7)}
+.deliverable::before{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;z-index:3;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent)}
+.dl-media{position:relative;background:var(--panel)}
+.dl-media img{display:block;width:100%;height:auto}
+.dl-media.placeholder{display:grid;place-items:center;min-height:240px;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 12px,transparent 12px 24px),var(--panel)}
+.dl-media.placeholder span{font-family:var(--sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--label);border:1px dashed var(--line-3);border-radius:999px;padding:9px 18px}
+.dl-body{padding:30px 26px}
+.dl-body .me{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cta-a);font-weight:800;margin-bottom:10px}
+.dl-body h3{font-size:22px;line-height:1.25;margin:0 0 12px}
+.dl-body p{color:var(--text-2);font-size:16px;line-height:1.6;margin:0}
+
+/* ---------- offer ---------- */
+.offer{background:radial-gradient(900px 520px at 50% 0%,rgba(59,108,246,.14),transparent 60%),var(--bg);
+  position:relative;overflow:hidden}
+.offer-bgword{display:none;position:absolute;left:-8px;bottom:-4%;z-index:0;font-family:var(--disp);
+  font-weight:800;font-size:clamp(110px,15vw,200px);line-height:.82;letter-spacing:-.04em;
+  color:rgba(255,255,255,.04);pointer-events:none;user-select:none;max-width:56%;word-break:break-word}
+.offer .wrap{position:relative;z-index:1}
+.offer-grid{display:grid;grid-template-columns:1fr;gap:34px;align-items:center}
+.offer-pill{display:inline-block;font-family:var(--sans);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;font-weight:700;color:var(--text-2);border:1px solid var(--line-3);
+  border-radius:999px;padding:9px 16px}
+.offer-eyebrow{display:block;margin-bottom:14px}
+.offer-left h2{font-family:var(--disp);font-weight:800;font-size:34px;line-height:1.05;margin:0 0 16px}
+.offer-sub{color:var(--text-2);font-size:17px;line-height:1.55;margin-bottom:22px;max-width:42ch}
+.offer-meta{display:flex;flex-wrap:wrap;gap:12px 24px;color:var(--text-2);font-size:14.5px;font-weight:600}
+.offer-meta span{display:inline-flex;align-items:center;gap:9px}
+.offer-meta svg{color:var(--cta-a);flex:0 0 auto}
+.offer-div{height:1px;background:var(--line);margin:24px 0}
+.offer-bullets{list-style:none;display:flex;flex-direction:column;gap:14px}
+.offer-bullets li{display:flex;align-items:flex-start;gap:12px;font-size:15.5px;color:var(--text-2)}
+.offer-bullets .spark{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(31,203,107,.16);color:var(--green-2);font-size:12px;font-weight:800;margin-top:1px}
+.offer-card{background:#0A0C1E;border:2px solid var(--cta-a);border-radius:26px;padding:30px 26px;position:relative;
+  text-align:center;box-shadow:0 0 0 1px rgba(245,130,13,.18),0 30px 80px -34px rgba(245,130,13,.35),0 40px 90px -50px rgba(0,0,0,.9)}
+.oc-flag{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:800;color:var(--cta-a);background:rgba(245,130,13,.12);border:1px solid rgba(245,130,13,.35);
+  border-radius:999px;padding:7px 15px;margin-bottom:22px}
+.oc-brand{display:flex;justify-content:center;align-items:center}
+.oc-logo{width:100%;max-width:250px;height:auto;display:block}
+.oc-div{height:1px;background:var(--line-2);margin:22px 0}
+.oc-lead{font-family:var(--disp);font-weight:700;color:#fff;font-size:23px;text-align:center}
+.oc-price{text-align:center;margin:6px 0 4px}
+.oc-old{display:block;color:var(--label);text-decoration:line-through;font-size:17px;margin-bottom:2px}
+.oc-big{font-family:var(--disp);font-weight:800;color:#fff;line-height:.88;display:inline-flex;align-items:flex-start;gap:6px}
+.oc-big .cur{font-size:30px;margin-top:12px}
+.oc-big .val{font-size:82px}
+.oc-big .cent{font-size:28px;margin-top:12px}
+.oc-warn{text-align:center;color:var(--amber);font-size:14.5px;font-weight:600;margin:14px 0 18px}
+.oc-warn b{color:var(--cta-a)}
+.oc-pay{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 16px}
+.oc-pay span{font-family:var(--disp);font-weight:800;font-size:13px;color:var(--label);opacity:.7}
+.oc-cta{width:100%}
+/* oferta em painel creme */
+.offer-cream{position:relative;padding:48px 0}
+.offer-cream .offer-grid{position:relative;z-index:1}
+.offer-cream .offer-bgword{color:rgba(11,15,36,.055)}
+.offer-cream .offer-eyebrow{color:#7a6f4e}
+.offer-cream .offer-left h2{color:var(--ink)}
+.offer-cream .offer-sub{color:#242a42}
+.offer-cream .offer-meta{color:#3a405e}
+.offer-cream .offer-meta svg{color:var(--cta-b)}
+.offer-cream .offer-div{background:rgba(11,15,36,.14)}
+.offer-cream .offer-bullets li{color:#242a42}
+.offer-cream .offer-bullets .spark{background:var(--green);color:#fff}
+
+/* ---------- author ---------- */
+.author{background:var(--deep);border-top:1px solid var(--line)}
+.author-grid{display:grid;gap:34px}
+.author-media img{width:100%;height:auto;display:block;max-width:520px;margin:0 auto}
+.author .eyebrow{display:block;margin-bottom:12px}
+.author h2{font-size:32px;margin-bottom:10px}
+.author .cred{color:var(--cta-a);font-weight:700;font-size:15px;margin-bottom:22px}
+.author p{color:var(--text-2);font-size:16.5px;margin-bottom:16px}
+.author p strong{color:#fff}
+.stats{display:grid;grid-template-columns:1fr;gap:14px;margin-top:26px}
+.stat{background:var(--panel);border:1px solid var(--line-2);border-radius:20px;padding:22px}
+.stat .num{font-family:var(--disp);font-weight:800;font-size:30px;color:var(--cta-a);line-height:1}
+.stat .l{font-size:14px;color:var(--text-2);margin-top:8px}
+
+/* ---------- FAQ ---------- */
+.faq{position:relative;overflow:hidden}
+.faq::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 400px at 50% 0%,rgba(59,108,246,.08),transparent 60%)}
+.faq .wrap{position:relative;z-index:1;max-width:820px}
+.faq details{position:relative;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;margin-bottom:14px;overflow:hidden;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.faq details::before{content:"";position:absolute;top:0;left:22px;right:22px;height:1px;z-index:2;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 24px;font-family:var(--disp);font-weight:700;font-size:16.5px;
+  color:#fff;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .p{flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-3);
+  display:grid;place-items:center;color:var(--cta-a);font-size:20px;line-height:1;transition:transform .2s}
+.faq details[open] summary .p{transform:rotate(45deg)}
+.faq .ans{padding:0 24px 22px;color:var(--text-2);font-size:15.5px}
+
+/* ---------- guarantee ---------- */
+.guar{text-align:center;background:radial-gradient(700px 460px at 50% 20%,rgba(59,108,246,.14),transparent 60%),var(--deep);border-top:1px solid var(--line)}
+.seal{position:relative;width:168px;height:168px;margin:0 auto 30px;display:grid;place-items:center}
+.seal .ring{position:absolute;border-radius:50%}
+.seal .r1{inset:0;border:1px dashed rgba(59,108,246,.45)}
+.seal .r2{inset:20px;border:1px solid rgba(245,130,13,.4)}
+.seal .core{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#1C2456,#0C0F27);
+  border:1px solid var(--line-3);display:grid;place-items:center;font-size:34px;color:var(--cta-a);z-index:2}
+.guar h2{font-size:clamp(26px,6vw,44px);max-width:16ch;margin:0 auto 16px}
+.guar p{color:var(--text-2);max-width:52ch;margin:0 auto 30px;font-size:16.5px}
+
+/* ---------- footer ---------- */
+footer{background:var(--bg);border-top:1px solid var(--line);padding:48px 0}
+footer .wrap{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;color:var(--label);font-size:13px}
+footer .fbrand{display:flex;align-items:center;gap:10px}
+footer .fbrand .bn{font-family:var(--disp);font-weight:700;color:var(--text-2);font-size:14px}
+footer a{color:var(--text-2)}
+
+/* ---------- responsive ---------- */
+@media(min-width:680px){
+  .cmp-grid,.decide-grid,.mock-grid{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(min-width:900px){
+  :root{--gutter:40px}
+  .nav-cta{display:inline-flex}
+  .hero{padding:0 0 100px;
+    background-image:linear-gradient(90deg,rgba(11,15,36,.94),rgba(11,15,36,.45) 46%,rgba(11,15,36,0) 64%),url("hero-desktop.webp");
+    background-size:cover;background-position:center right;background-repeat:no-repeat}
+  .hero::before{display:none}
+  .hero-body{padding-top:40px}
+  .hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:40px}
+  .hero-copy{order:1}
+  .pills{flex-direction:row;flex-wrap:wrap}
+  .nav-row{border-bottom:1px solid rgba(255,255,255,.09)}
+  .hero h1{font-size:40px}
+  .sec-head h2{font-size:44px}
+  .cream-grid{grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .cream-inner{padding:100px 0}
+  .author-grid{grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+  .offer-bgword{display:block}
+  .offer-cream{padding:70px 0}
+  .offer-grid{grid-template-columns:1.05fr .95fr;gap:56px}
+  .offer-left h2{font-size:44px}
+  .offer-card{padding:44px 40px}
+  .oc-big .val{font-size:96px}
+  .cream .cmp-card .ct{font-size:21px}
+  .cream .cmp-card li{font-size:17.5px}
+  .cream .cmp-card .guia{font-size:13px}
+  .cream .cmp-card .note{font-size:16px}
+  .bridge-card{width:100%;height:750px;margin:86px 0 0;padding:40px 40px 40px 60px;
+    display:flex;align-items:center;border-radius:28px;
+    background:linear-gradient(90deg,rgba(11,15,36,.72),rgba(11,15,36,.25) 50%,rgba(11,15,36,0) 72%),url("background-secao-6-desktop.webp") center right/cover no-repeat,var(--deep)}
+  .bridge-content{max-width:540px}
+  .pilar-grid{grid-template-columns:repeat(3,1fr);gap:20px}
+  .pilar h3{min-height:84px}
+  .deliverable{flex-direction:row;align-items:stretch}
+  .deliverable.rev{flex-direction:row-reverse}
+  .deliverable .dl-media{flex:2 1 0}
+  .deliverable .dl-media img{width:100%;height:auto}
+  .deliverable .dl-body{flex:1 1 0;display:flex;flex-direction:column;justify-content:center;padding:34px 30px}
+  .dl-body h3{font-size:26px}
+  .fecho-inner{padding:72px 30px}
+  .fecho-inner p{font-size:40px;line-height:1.2;max-width:none}
+  .sec{padding:120px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- URGENCY BAR -->
+<div class="ubar">
+  <div class="wrap">
+    <p class="ub-main">Você só tem até <b>30 de setembro</b> para fazer a opção <br class="br-desk">entre Simples Híbrido e Convencional.</p>
+    <div class="ub-count">
+      <span class="ub-label">Faltam</span>
+      <span class="count" id="count">
+        <span class="unit"><b id="d">00</b><i>dias</i></span>
+        <span class="unit"><b id="h">00</b><i>horas</i></span>
+        <span class="unit"><b id="m">00</b><i>min</i></span>
+        <span class="unit"><b id="s">00</b><i>seg</i></span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO (NAV integrado) -->
+<header class="hero">
+  <div class="wrap">
+   <div class="nav-row">
+    <div class="brand">
+      <img class="brand-logo" src="logotipo.svg" alt="Cálculo do Novo Simples Nacional">
+    </div>
+    <a href="#oferta" class="cta cta-ghost nav-cta">Garantir minha vaga</a>
+   </div>
+  </div>
+  <div class="wrap hero-body">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="pills">
+          <span class="pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg> Reforma Tributária</span>
+          <span class="pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> 17/09 · 19h às 22h</span>
+          <span class="pill"><span class="dot-live"></span> Ao vivo · 3 horas</span>
+        </div>
+        <h1>Descubra como calcular, na prática, o <span class="hl-o">Novo Simples Nacional</span> e fazer a melhor opção para cada cliente seu entre o <span class="hl-b">Híbrido</span> e o <span class="hl-b">Convencional</span>.</h1>
+        <p class="sub">Em uma imersão ao vivo de 3 horas, eu abro os <b>dados reais de empresas</b> e calculo com você qual opção faz mais sentido para cada cliente. Você sai sabendo decidir dentro do prazo, inclusive quando o cliente não tem contabilidade organizada.</p>
+        <p class="sub mini">Clique no botão abaixo e garanta sua vaga nesta imersão ao vivo, antes do fim do prazo de opção.</p>
+        <a href="#oferta" class="cta cta-full">GARANTIR A MINHA VAGA POR R$ 29,90</a>
+        <div class="scarcity">
+          <div class="scar-track"><div class="scar-fill" style="width:63%"></div></div>
+          <div class="scar-label">63% dos ingressos vendidos</div>
+        </div>
+      </div>
+
+      <div class="portrait-stage">
+        <svg class="orbit-svg" viewBox="0 0 400 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <g fill="none" stroke-linecap="round">
+            <circle cx="200" cy="215" r="185" stroke="#F5820D" stroke-opacity=".22" stroke-width="2" stroke-dasharray="2 12"/>
+            <circle cx="200" cy="215" r="150" stroke="#3B6CF6" stroke-opacity=".28" stroke-width="1.5" stroke-dasharray="6 10"/>
+            <path d="M40 215 A160 160 0 0 1 360 215" stroke="#F5820D" stroke-opacity=".5" stroke-width="2.5" stroke-dasharray="2 9"/>
+          </g>
+        </svg>
+        <div class="portrait">
+          <span class="plabel">Retrato editorial</span>
+          <div class="silh"></div>
+          <div class="namecard">
+            <span class="nl"><span class="dot-live"></span> Ao vivo</span>
+            <div class="nn">Bruno Viana Macedo</div>
+            <div class="nd">Cálculo do Novo Simples Nacional, ao vivo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track" aria-hidden="true">
+    <span>Simples Híbrido</span><i class="dot"></i>
+    <span>Simples Convencional</span><i class="dot"></i>
+    <span>CBS · IBS</span><i class="dot"></i>
+    <span>Reforma Tributária</span><i class="dot"></i>
+    <span>Cálculo na prática</span><i class="dot"></i>
+    <span>Simples Híbrido</span><i class="dot"></i>
+    <span>Simples Convencional</span><i class="dot"></i>
+    <span>CBS · IBS</span><i class="dot"></i>
+    <span>Reforma Tributária</span><i class="dot"></i>
+    <span>Cálculo na prática</span><i class="dot"></i>
+    <span>Simples Híbrido</span><i class="dot"></i>
+    <span>Simples Convencional</span><i class="dot"></i>
+    <span>CBS · IBS</span><i class="dot"></i>
+    <span>Reforma Tributária</span><i class="dot"></i>
+    <span>Cálculo na prática</span><i class="dot"></i>
+    <span>Simples Híbrido</span><i class="dot"></i>
+    <span>Simples Convencional</span><i class="dot"></i>
+    <span>CBS · IBS</span><i class="dot"></i>
+    <span>Reforma Tributária</span><i class="dot"></i>
+    <span>Cálculo na prática</span><i class="dot"></i>
+  </div>
+</div>
+
+<!-- CONTEXT (cream contrast) -->
+<section class="sec" style="padding-top:70px">
+  <div class="cream">
+    <div class="wrap cream-inner">
+      <div class="cream-grid">
+        <div>
+          <span class="kicker">O que está em jogo</span>
+          <h2 class="giant">E o que vai mudar <span class="hl-o">de fato?</span></h2>
+        </div>
+        <div class="cream-card">
+          <p>A Reforma Tributária exige que cada contador formalize, <strong>ainda este mês</strong>, a opção entre o Simples Híbrido e o Simples Convencional para todos os clientes optantes pelo Simples Nacional, ou empresas que desejam migrar para o Simples.</p>
+          <p>A opção do Simples é em setembro. Quem não decidir dentro do prazo perde a janela para escolher o regime mais vantajoso para cada cliente.</p>
+        </div>
+      </div>
+
+      <!-- Notícias (prova) -->
+      <div class="cream-news">
+        <picture>
+          <source media="(max-width:899px)" srcset="noticias-mobile.webp">
+          <img src="noticias.webp" alt="Notícias sobre o prazo de opção do Simples Nacional e a Reforma Tributária" loading="lazy">
+        </picture>
+      </div>
+
+      <!-- Comparativo (dentro do creme) -->
+      <div class="cmp-head">
+        <span class="kicker">Entenda a diferença</span>
+        <h2 class="cmp-title">Simples Nacional: Convencional <span class="vs-txt">vs</span> Híbrido</h2>
+        <span class="cmp-ref">Art. 93 — LC 227/2026</span>
+      </div>
+      <div class="cmp-grid">
+      <div class="cmp-card cmp-conv">
+        <span class="cmp-tag">Antes</span>
+        <div class="ct">📄 Simples Convencional</div>
+        <div class="guia">Guia DAS</div>
+        <ul>
+          <li><span class="ck r">•</span> IRPJ + CSLL + CPP</li>
+          <li><span class="ck r">•</span> ICMS / ISS</li>
+          <li><span class="ck r">•</span> CBS / IBS — tudo dentro do DAS</li>
+        </ul>
+        <div class="note warn">
+          <strong>⚠ Sem crédito de CBS/IBS.</strong>
+          Cliente PJ recebe apenas a parcela efetivamente paga dentro do DAS — crédito sub-representado.
+        </div>
+      </div>
+      <div class="cmp-card cmp-hib">
+        <span class="cmp-tag">Depois</span>
+        <div class="ct">📄 Simples Híbrido</div>
+        <div class="guia">Guia DAS</div>
+        <ul><li><span class="ck g">✓</span> IRPJ + CSLL + CPP + ICMS/ISS</li></ul>
+        <div class="guia">📄 Guia separada</div>
+        <ul><li><span class="ck g">✓</span> CBS — alíquota padrão (por fora) ↓</li></ul>
+        <div class="note good">
+          <strong>✓ Tem e concede crédito integral de CBS.</strong>
+          Cliente PJ recebe crédito cheio — competitividade total no B2B.
+        </div>
+      </div>
+      </div>
+
+      <!-- Ponte (dentro do creme) -->
+      <div class="bridge-card">
+    <div class="bridge-content">
+      <p class="kicker">e no dia 17/09</p>
+      <h2>Eu vou te ensinar a fazer esse cálculo na prática, tirando todas as suas dúvidas</h2>
+      <p>Um workshop prático de 3 horas, ao vivo, onde eu calculo com você as empresas do Simples Nacional: explico o Convencional, explico o Híbrido, o que fazer com clientes que não têm contabilidade, quem tem alíquota zero, quem tem redução, e quem paga mais ou menos dentro e fora do Simples Nacional.</p>
+      <a href="#oferta" class="cta bridge-cta">GARANTIR A MINHA VAGA POR R$ 29,90</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section class="sec pilares">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">O que você vai dominar</span>
+      <h2>Os 3 pilares do workshop</h2>
+    </div>
+
+    <div class="pilar-grid">
+      <div class="pilar">
+        <span class="pn">01</span>
+        <div class="pt">Pilar 01</div>
+        <h3>Como calcular na prática</h3>
+        <ul class="checks">
+          <li><span class="chk"></span> Passo a passo do cálculo do Simples Convencional</li>
+          <li><span class="chk"></span> Passo a passo do cálculo do Simples Híbrido</li>
+          <li><span class="chk"></span> Vou abrir dados reais de empresas e calcular junto com você</li>
+          <li><span class="chk"></span> Tira-dúvidas ao vivo comigo durante a aula</li>
+        </ul>
+      </div>
+      <div class="pilar">
+        <span class="pn">02</span>
+        <div class="pt">Pilar 02</div>
+        <h3>Como definir quem fica no Convencional e quem vai para o Híbrido</h3>
+        <ul class="checks">
+          <li><span class="chk"></span> Critérios práticos para decidir o regime certo de cada cliente</li>
+          <li><span class="chk"></span> Como comparar os dois cálculos e escolher a opção mais vantajosa</li>
+          <li><span class="chk"></span> Erros comuns que levam à decisão errada</li>
+        </ul>
+      </div>
+      <div class="pilar">
+        <span class="pn">03</span>
+        <div class="pt">Pilar 03</div>
+        <h3>Como calcular mesmo sem os dados do cliente</h3>
+        <ul class="checks">
+          <li><span class="chk"></span> O que fazer quando o cliente não tem contabilidade organizada</li>
+          <li><span class="chk"></span> Como calcular com dados incompletos ou desorganizados</li>
+          <li><span class="chk"></span> O que pedir ao cliente antes de fechar a decisão</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- fecho creme (dentro dos pilares) -->
+    <div class="cream fecho-cream">
+      <div class="fecho-inner">
+        <p>Você sai desse workshop com segurança para<br class="br-desk"> decidir por qualquer cliente da sua carteira.</p>
+        <a href="#oferta" class="cta">GARANTIR A MINHA VAGA POR R$ 29,90</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DECIDE -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">De que lado você quer estar</span>
+      <h2>A diferença entre quem decide no achismo e quem decide certo</h2>
+    </div>
+    <div class="decide-grid">
+      <div class="decide-col decide-bad">
+        <h3>Quem decide no achismo</h3>
+        <div class="decide-items">
+          <div class="decide-item"><span class="dic">✕</span><p>Vai deixar a opção para o último dia de setembro</p></div>
+          <div class="decide-item"><span class="dic">✕</span><p>Confunde Simples Híbrido com Convencional</p></div>
+          <div class="decide-item"><span class="dic">✕</span><p>Trava quando o cliente não tem contabilidade organizada</p></div>
+          <div class="decide-item"><span class="dic">✕</span><p>Vai descobrir o erro só quando o cliente reclamar do imposto pago a mais</p></div>
+          <div class="decide-item"><span class="dic">✕</span><p>Decide baseado em achismo</p></div>
+          <div class="decide-item"><span class="dic">✕</span><p>Corre o risco de perder o prazo</p></div>
+        </div>
+      </div>
+      <div class="decide-col decide-good">
+        <h3>Quem decide certo</h3>
+        <div class="decide-items">
+          <div class="decide-item"><span class="dic">✓</span><p>Já sabe qual opção vale para cada cliente antes do prazo</p></div>
+          <div class="decide-item"><span class="dic">✓</span><p>Sabe calcular e comparar os dois regimes</p></div>
+          <div class="decide-item"><span class="dic">✓</span><p>Sabe decidir mesmo com dados incompletos</p></div>
+          <div class="decide-item"><span class="dic">✓</span><p>Já validou o cálculo com dados reais de empresas</p></div>
+          <div class="decide-item"><span class="dic">✓</span><p>Decide com cálculo e método</p></div>
+          <div class="decide-item"><span class="dic">✓</span><p>Formaliza a opção certa dentro do mês</p></div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:38px">
+      <a href="#oferta" class="cta">QUERO DECIDIR CERTO ANTES DO PRAZO</a>
+    </div>
+  </div>
+</section>
+
+<!-- RECEIVE -->
+<section class="sec receive">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Tudo o que está incluso</span>
+      <h2>O que você recebe</h2>
+    </div>
+    <div class="deliverables">
+      <!-- Card 1: imagem à direita, texto à esquerda -->
+      <div class="deliverable rev">
+        <div class="dl-media"><img src="entregavel-1.webp" alt="Planilha do Simples: CBS Convencional vs Híbrido" loading="lazy"></div>
+        <div class="dl-body">
+          <span class="me">Planilha inclusa</span>
+          <h3>Planilha do Simples: CBS Convencional vs Híbrido</h3>
+          <p>A planilha pronta para calcular e comparar o CBS no Simples Convencional e no Híbrido, cliente por cliente.</p>
+        </div>
+      </div>
+      <!-- Card 2: imagem à esquerda, texto à direita -->
+      <div class="deliverable">
+        <div class="dl-media"><img src="entregavel-2.webp" alt="Checklist de pendências da opção do Simples" loading="lazy"></div>
+        <div class="dl-body">
+          <span class="me">Checklist incluso</span>
+          <h3>Checklist de pendências da opção do Simples</h3>
+          <p>O checklist com todas as pendências da opção do Simples para você não deixar passar nenhum passo antes do prazo.</p>
+        </div>
+      </div>
+      <!-- Card 3: imagem à direita (placeholder), texto à esquerda -->
+      <div class="deliverable rev">
+        <div class="dl-media placeholder"><span>Imagem em breve</span></div>
+        <div class="dl-body">
+          <span class="me">A imersão ao vivo</span>
+          <h3>Uma imersão ao vivo de três horas</h3>
+          <p>Você vai conseguir entender o cálculo do regime Híbrido X Convencional e aplicar em toda a sua carteira de clientes do Simples Nacional ou clientes que desejam ir para o Simples Nacional em 2027.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER -->
+<section class="sec offer" id="oferta">
+  <div class="cream offer-cream">
+    <span class="offer-bgword">INVESTIMENTO</span>
+    <div class="wrap">
+      <div class="offer-grid">
+      <!-- Esquerda -->
+      <div class="offer-left">
+        <span class="eyebrow offer-eyebrow">Investimento</span>
+        <h2>Cálculo do Novo<br class="br-desk"> Simples Nacional</h2>
+        <p class="offer-sub">Como calcular na prática o Simples Híbrido e Convencional. Última janela antes do fim do prazo de opção.</p>
+        <div class="offer-meta">
+          <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> 17/09 · das 19h às 22h</span>
+          <span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg> Ao vivo · transmissão online</span>
+        </div>
+        <div class="offer-div"></div>
+        <ul class="offer-bullets">
+          <li><span class="spark">✓</span> 3 horas de conteúdo prático</li>
+          <li><span class="spark">✓</span> Transmissão ao vivo</li>
+          <li><span class="spark">✓</span> Cálculo Simples Híbrido X Convencional</li>
+          <li><span class="spark">✓</span> Cálculo de empresas de comércio, serviço e Indústria</li>
+          <li><span class="spark">✓</span> Tira-dúvidas ao vivo com o professor Bruno Viana durante a aula</li>
+          <li><span class="spark">✓</span> Planilha do Simples: CBS Convencional vs Híbrido</li>
+          <li><span class="spark">✓</span> Checklist de pendências da opção do Simples</li>
+        </ul>
+      </div>
+
+      <!-- Card de preço -->
+      <div class="offer-card">
+        <span class="oc-flag">Oferta por tempo limitado</span>
+        <div class="oc-brand">
+          <img class="oc-logo" src="logotipo.svg" alt="Cálculo do Novo Simples Nacional">
+        </div>
+        <div class="oc-div"></div>
+        <p class="oc-lead">Tudo isso por apenas</p>
+        <div class="oc-price">
+          <span class="oc-old">de R$ 97,00</span>
+          <div class="oc-big"><span class="cur">R$</span><span class="val">29</span><span class="cent">,90</span></div>
+        </div>
+        <p class="oc-warn">⚠ <b>Ingressos limitados</b> — podem esgotar a qualquer momento</p>
+        <div class="oc-div"></div>
+        <a href="#" class="cta cta-full oc-cta">GARANTIR A MINHA VAGA</a>
+        <div class="scarcity">
+          <div class="scar-track"><div class="scar-fill" style="width:63%"></div></div>
+          <div class="scar-label">63% dos ingressos vendidos</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="sec author">
+  <div class="wrap">
+    <div class="author-grid">
+      <div class="author-media">
+        <img src="bio-bruno.webp" alt="Prof. Bruno Viana" loading="lazy">
+      </div>
+      <div class="author-text">
+        <span class="eyebrow">Quem vai te guiar neste workshop</span>
+        <h2>Quem é o Prof. Bruno Viana?</h2>
+        <p class="cred">Especialista em Reforma Tributária | 15 anos de experiência</p>
+        <p>Bruno Viana é referência nacional em tributação e palestra sobre Reforma Tributária em eventos. Auditou mais de <strong>R$ 50 milhões</strong> em autos de infração de ICMS e treinou centenas de contadores que dobraram seus faturamentos aplicando suas metodologias.</p>
+        <p>Criador da Mentoria Contador Tributarista, fundador da Academia Elite Fiscal e responsável pela Pós-Graduação em Reforma Tributária reconhecida pelo MEC. Sua missão: transformar legislação complexa em conhecimento prático que gera resultados reais.</p>
+        <p>Se você quer dominar o Simples Nacional 2026 com quem realmente entende do assunto (e sabe ensinar na prática), você está no lugar certo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Tire suas dúvidas</span>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <details><summary>Quando vai acontecer? <span class="p">+</span></summary><div class="ans">No dia 17/09, das 19h às 22h, ao vivo.</div></details>
+    <details><summary>O workshop vai ficar gravado? <span class="p">+</span></summary><div class="ans">Não. É um encontro 100%, a sua presença ao vivo é essencial para que você calcule junto comigo e tire todas as suas dúvidas.</div></details>
+    <details><summary>Como vou acessar a transmissão no dia? <span class="p">+</span></summary><div class="ans">Após a confirmação da inscrição, você recebe no seu e-mail e WhatsApp todos os detalhes de acesso à transmissão ao vivo para entrar no horário do workshop, dia 17/09 às 19h.</div></details>
+    <details><summary>Serve para clientes de qualquer segmento? <span class="p">+</span></summary><div class="ans">Sim. Vamos calcular exemplos de comércio, serviço e indústria, e você sai sabendo aplicar o mesmo raciocínio em qualquer cliente da sua carteira no Simples Nacional.</div></details>
+    <details><summary>Vou poder tirar dúvidas? <span class="p">+</span></summary><div class="ans">Sim, o tira-dúvidas acontece ao vivo durante a aula.</div></details>
+    <details><summary>Preciso ter conhecimento avançado em Simples Nacional? <span class="p">+</span></summary><div class="ans">Não. O workshop é prático e direto ao ponto — o objetivo é que você saia sabendo calcular e decidir, mesmo que ainda não domine todos os detalhes da Reforma.</div></details>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fbrand">
+      <img class="footer-logo" src="logotipo.svg" alt="Cálculo do Novo Simples Nacional">
+    </div>
+    <div>Copyright © — <a href="#">Política de Privacidade</a> · Workshop Cálculo do Novo Simples Nacional</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var target=new Date(2026,8,17,19,0,0).getTime();
+  var d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m'),s=document.getElementById('s');
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    var diff=target-Date.now();if(diff<0)diff=0;
+    d.textContent=pad(Math.floor(diff/86400000));
+    h.textContent=pad(Math.floor(diff%86400000/3600000));
+    m.textContent=pad(Math.floor(diff%3600000/60000));
+    s.textContent=pad(Math.floor(diff%60000/1000));
+  }
+  tick();setInterval(tick,1000);
+})();
+
+// Pilares: checks animam no hover (desktop) e no scroll (mobile)
+(function(){
+  var pilars=document.querySelectorAll('.pilar');
+  if(!pilars.length)return;
+  pilars.forEach(function(p){
+    p.addEventListener('mouseenter',function(){p.classList.add('on')});
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting && window.innerWidth<900){ e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    },{rootMargin:'-42% 0px -42% 0px',threshold:0});
+    pilars.forEach(function(p){io.observe(p)});
+  }
+})();
+
+// Decide: item ativa no hover (desktop) e acompanha o scroll (mobile, spotlight)
+(function(){
+  var items=document.querySelectorAll('.decide-item');
+  if(!items.length || !('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(window.innerWidth<900){
+        if(e.isIntersecting) e.target.classList.add('on');
+        else e.target.classList.remove('on');
+      }
+    });
+  },{rootMargin:'-50% 0px -50% 0px',threshold:0});
+  items.forEach(function(i){io.observe(i)});
+})();
+</script>
+</body>
+</html>
