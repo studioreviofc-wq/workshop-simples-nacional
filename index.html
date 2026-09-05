@@ -947,6 +947,16 @@ footer a{color:var(--text-2)}
   },{rootMargin:'-50% 0px -50% 0px',threshold:0});
   items.forEach(function(i){io.observe(i)});
 })();
+
+// FAQ: acordeão exclusivo — abrir uma fecha as demais
+(function(){
+  var faqs=document.querySelectorAll('.faq details');
+  faqs.forEach(function(d){
+    d.addEventListener('toggle',function(){
+      if(d.open){ faqs.forEach(function(o){ if(o!==d) o.open=false; }); }
+    });
+  });
+})();
 </script>
 </body>
 </html>
