@@ -90,6 +90,9 @@ section{position:relative}
   padding:16px var(--gutter);text-align:center}
 .ub-main{font-size:20px;line-height:1.32;color:#fff;font-weight:600;letter-spacing:-.01em}
 .br-desk{display:none}
+.br-ub{display:inline}
+/* barra de urgência: manter o texto sempre em 2 linhas no mobile (360–899px) */
+@media(max-width:899px){.ub-main{font-size:min(15px,calc(3.6vw - 1px))}}
 .ub-main b{color:#fff;font-weight:800}
 .ub-count{display:flex;flex-direction:row;align-items:center;gap:12px}
 .ub-label{font-size:12px;font-weight:800;color:#FFD7DE;letter-spacing:.18em;text-transform:uppercase}
@@ -515,7 +518,7 @@ footer a{color:var(--text-2)}
 <!-- URGENCY BAR -->
 <div class="ubar">
   <div class="wrap">
-    <p class="ub-main">Você só tem até <b>30 de setembro</b> para fazer a opção <br class="br-desk">entre Simples Híbrido e Convencional.</p>
+    <p class="ub-main">Você só tem até <b>30 de setembro</b> para fazer a opção <br class="br-ub">entre Simples Híbrido e Convencional.</p>
     <div class="ub-count">
       <span class="ub-label">Faltam</span>
       <span class="count" id="count">
@@ -544,7 +547,7 @@ footer a{color:var(--text-2)}
         <div class="pills">
           <span class="pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg> Reforma Tributária</span>
           <span class="pill"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg> 17/09 · 19h às 22h</span>
-          <span class="pill"><span class="dot-live"></span> Ao vivo · 3 horas</span>
+          <span class="pill"><span class="dot-live"></span> Transmissão - Ao vivo</span>
         </div>
         <h1>Descubra como calcular, na prática, o <span class="hl-o">Novo Simples Nacional</span> e fazer a melhor opção para cada cliente seu entre o <span class="hl-b">Híbrido</span> e o <span class="hl-b">Convencional</span>.</h1>
         <p class="sub">Em uma imersão ao vivo de 3 horas, eu abro os <b>dados reais de empresas</b> e calculo com você qual opção faz mais sentido para cada cliente. Você sai sabendo decidir dentro do prazo, inclusive quando o cliente não tem contabilidade organizada.</p>
